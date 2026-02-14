@@ -83,7 +83,7 @@ bindkey '^n' history-search-forward
 
 HISTSIZE=5000
 HISTFILE=~/.zsh_history
-SAVEHINTS=$HISTSIZE
+SAVEHIST=$HISTSIZE
 HISTDUP=erase
 setopt appendhistory
 setopt sharehistory
@@ -99,6 +99,8 @@ setopt hist_find_no_dups
 
 export PATH="$PATH:/home/chow/.local/bin"
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+# opencode
+export PATH=/home/chow/.opencode/bin:$PATH
 
 # ===================
 # shell integrations
@@ -111,11 +113,6 @@ eval "$(fzf --zsh)"
 # cargo
 . "$HOME/.cargo/env"
 
-# pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - zsh)"
-
 # fnm
 FNM_PATH="/home/chow/.local/share/fnm"
 if [ -d "$FNM_PATH" ]; then
@@ -124,12 +121,24 @@ if [ -d "$FNM_PATH" ]; then
   eval "$(fnm completions --shell zsh)"
 fi
 
+# zoxide
+eval "$(zoxide init zsh --cmd cd)"
+
+# uv
+eval "$(uv generate-shell-completion zsh)"
+eval "$(uvx --generate-shell-completion zsh)"
+
 # ===========
 # functions
 # ===========
 
 fpath+=${ZDOTDIR:-~}/.zsh_functions
 source ~/.zsh_functions/vpn
+
+# ==========
+# envs
+# ==========
+export EDITOR=windsurf
 
 # ========== 
 # aliases
